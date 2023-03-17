@@ -5,6 +5,8 @@ import com.example.demo.bean.MyBeanWithDependency;
 import com.example.demo.bean.MyBeanWithProperties;
 import com.example.demo.component.ComponentDependency;
 import com.example.demo.pojo.UserPojo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
+
+	private Log log = LogFactory.getLog(DemoApplication.class);
 
 	private ComponentDependency componentDependency;
 	private MyBean myBean;
@@ -38,5 +42,11 @@ public class DemoApplication implements CommandLineRunner {
 		myBeanWithDependency.printWithDependency();
 		System.out.println(myBeanWithProperties.function());
 		System.out.println(userPojo.getEmail()+"-"+userPojo.getPassword());
+		try{
+			int value = 10/0;
+			log.info("Mi valor :"+value);
+		}catch (Exception e){
+			log.error("Esto es un error al dividir por cero "+e.getMessage());
+		}
 	}
 }
