@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,6 +49,16 @@ public class DemoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//ejemplosAnteriores();
 		saveUserInDataBase();
+		getInformationJpqlFromUser();
+	}
+
+	private void getInformationJpqlFromUser(){
+		log.info("Usuario con el metodo "+
+				userRepository.findByUserEmail("camilo@gmail.com").
+						orElseThrow(()-> new RuntimeException("No se encontro el usuario")));
+		userRepository.findByAndSort("D", Sort.by("id").descending())
+				.stream()
+				.forEach(user -> log.info("Usuario con metodo sort "+user));
 	}
 
 	private void saveUserInDataBase(){
