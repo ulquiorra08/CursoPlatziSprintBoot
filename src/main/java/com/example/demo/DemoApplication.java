@@ -59,6 +59,11 @@ public class DemoApplication implements CommandLineRunner {
 		userRepository.findByAndSort("D", Sort.by("id").descending())
 				.stream()
 				.forEach(user -> log.info("Usuario con metodo sort "+user));
+		userRepository.findByName("Camilo")
+				.stream()
+				.forEach(user->log.info("Usuario con Query Method "+user));
+		log.info("Usuario con metodo de doble entrada "+userRepository.findByEmailAndName("pacho@gmail.com","Pacho")
+				.orElseThrow(()-> new RuntimeException("usuario no encontrado")));
 	}
 
 	private void saveUserInDataBase(){
