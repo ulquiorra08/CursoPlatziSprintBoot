@@ -64,19 +64,31 @@ public class DemoApplication implements CommandLineRunner {
 				.forEach(user->log.info("Usuario con Query Method "+user));
 		log.info("Usuario con metodo de doble entrada "+userRepository.findByEmailAndName("pacho@gmail.com","Pacho")
 				.orElseThrow(()-> new RuntimeException("usuario no encontrado")));
+		userRepository.findByNameLike("%a%")
+				.stream()
+				.forEach(user -> log.info("Usuario findByNameLike "+user));
+		userRepository.findByNameOrEmail(null,"camilo@gmail.com")
+				.stream()
+				.forEach(user -> log.info("Usuario findByNameOrEmail "+user));
+		userRepository.findByBirthDateBetween(LocalDate.of(2000,3,1),LocalDate.of(2000,5,1))
+				.stream()
+				.forEach(user -> log.info("fecha compleaños "+user));
+		userRepository.findByNameContainingOrderByIdDesc("a")
+				.stream()
+				.forEach(user -> log.info("Usuario encontrado con Like y ordenado "+user));
 	}
 
 	private void saveUserInDataBase(){
-		User user = new User("Camilo","camilo@gmail.com", LocalDate.of(2000,05,01));
-		User user1 = new User("Jesus","Jesus@gmail.com", LocalDate.of(2000,12,01));
-		User user2 = new User("Daniela","daniela@gmail.com", LocalDate.of(2000,05,02));
-		User user3 = new User("Maria","maria@gmail.com", LocalDate.of(2000,05,03));
-		User user4 = new User("Pacho","pacho@gmail.com", LocalDate.of(2000,05,04));
-		User user5 = new User("Lorena","lorena@gmail.com", LocalDate.of(2000,05,05));
-		User user6 = new User("Angie","angie@gmail.com", LocalDate.of(2000,05,06));
-		User user7 = new User("Pablo","pablo@gmail.com", LocalDate.of(2000,05,07));
-		User user8 = new User("Mafe","mafe@gmail.com", LocalDate.of(2000,05,07));
-		User user9 = new User("Diana","diana@gmail.com", LocalDate.of(2000,05,07));
+		User user = new User("Camilo","camilo@gmail.com", LocalDate.of(2000,5,1));
+		User user1 = new User("Jesus","Jesus@gmail.com", LocalDate.of(2000,12,1));
+		User user2 = new User("Daniela","daniela@gmail.com", LocalDate.of(2000,5,2));
+		User user3 = new User("Maria","maria@gmail.com", LocalDate.of(2000,5,3));
+		User user4 = new User("Pacho","pacho@gmail.com", LocalDate.of(2000,5,4));
+		User user5 = new User("Lorena","lorena@gmail.com", LocalDate.of(2000,5,5));
+		User user6 = new User("Angie","angie@gmail.com", LocalDate.of(2000,3,6));
+		User user7 = new User("Pablo","pablo@gmail.com", LocalDate.of(2000,3,7));
+		User user8 = new User("Mafe","mafe@gmail.com", LocalDate.of(2000,4,7));
+		User user9 = new User("Diana","diana@gmail.com", LocalDate.of(2000,4,9));
 		List<User> userList = Arrays.asList(user,user1,user2,user3,user4,user5,user6,user7,user8,user9);
 		userList.stream().forEach(userRepository::save);
 	}
