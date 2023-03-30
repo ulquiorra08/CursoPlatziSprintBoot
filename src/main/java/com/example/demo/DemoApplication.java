@@ -76,6 +76,8 @@ public class DemoApplication implements CommandLineRunner {
 		userRepository.findByNameContainingOrderByIdDesc("a")
 				.stream()
 				.forEach(user -> log.info("Usuario encontrado con Like y ordenado "+user));
+		log.info("El usuario apartir del name parameter es: "+userRepository.getAllByBirtDateAndEmail(LocalDate.of(2000,5,2),"daniela@gmail.com")
+				.orElseThrow(()->new RuntimeException("No se a encontrado el usuario apartir del parametro ")));
 	}
 
 	private void saveUserInDataBase(){
